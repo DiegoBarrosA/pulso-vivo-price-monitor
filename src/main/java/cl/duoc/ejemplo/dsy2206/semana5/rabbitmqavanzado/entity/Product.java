@@ -53,9 +53,8 @@ public class Product {
 
     @PreUpdate
     public void preUpdate() {
-        if (this.lastPriceUpdate == null) {
-            this.lastPriceUpdate = LocalDateTime.now();
-        }
+        // Siempre actualizar la fecha de último cambio de precio
+        this.lastPriceUpdate = LocalDateTime.now();
     }
 
     @PrePersist

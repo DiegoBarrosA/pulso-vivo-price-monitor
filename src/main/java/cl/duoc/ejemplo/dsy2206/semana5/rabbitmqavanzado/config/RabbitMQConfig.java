@@ -7,6 +7,7 @@ import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -118,5 +119,12 @@ public class RabbitMQConfig {
 	Binding priceChangeDlxBinding() {
 
 		return BindingBuilder.bind(priceChangeDlq()).to(priceChangeDlxExchange()).with("dlq");
+	}
+
+	@Bean
+	public RabbitTemplate rabbitTemplate(CachingConnectionFactory connectionFactory, Jackson2JsonMessageConverter messageConverter) {
+	    RabbitTemplate template = new RabbitTemplate(connectionFactory);
+	    template.setMessageConverter(messageConverter);
+	    return template;
 	}
 }

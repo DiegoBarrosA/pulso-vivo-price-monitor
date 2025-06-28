@@ -64,34 +64,34 @@ public class MensajeServiceImpl implements MensajeService {
 		}
 	}
 
-	@RabbitListener(id = "listener-price-changes", queues = RabbitMQConfig.PRICE_CHANGE_QUEUE)
-	public void recibirCambioPrecio(PriceChangeEventDTO priceChangeEvent) {
-		try {
-			System.out.println("=== CAMBIO DE PRECIO DETECTADO ===");
-			System.out.println("Producto ID: " + priceChangeEvent.getProductId());
-			System.out.println("Nombre: " + priceChangeEvent.getProductName());
-			System.out.println("Categoría: " + priceChangeEvent.getProductCategory());
-			System.out.println("Precio anterior: $" + priceChangeEvent.getOldPrice());
-			System.out.println("Precio nuevo: $" + priceChangeEvent.getNewPrice());
-			System.out.println("Cambio: $" + priceChangeEvent.getChangeAmount());
-			System.out.println("Porcentaje de cambio: " + String.format("%.2f%%", priceChangeEvent.getChangePercentage()));
-			System.out.println("Tipo de cambio: " + priceChangeEvent.getChangeType());
-			System.out.println("Fecha/Hora: " + priceChangeEvent.getChangeTimestamp());
-			System.out.println("Razón: " + priceChangeEvent.getChangeReason());
-			System.out.println("=====================================");
-			
-			// Here you could implement business logic like:
-			// - Notify inventory management system
-			// - Update pricing analytics
-			// - Send notifications to customers
-			// - Log for audit purposes
-			// - Trigger price optimization algorithms
-			
-		} catch (Exception e) {
-			System.err.println("Error procesando cambio de precio: " + e.getMessage());
-			e.printStackTrace();
-		}
-	}
+//	@RabbitListener(id = "listener-price-changes", queues = RabbitMQConfig.PRICE_CHANGE_QUEUE)
+//	public void recibirCambioPrecio(PriceChangeEventDTO priceChangeEvent) {
+//		try {
+//			System.out.println("=== CAMBIO DE PRECIO DETECTADO ===");
+//			System.out.println("Producto ID: " + priceChangeEvent.getProductId());
+//			System.out.println("Nombre: " + priceChangeEvent.getProductName());
+//			System.out.println("Categoría: " + priceChangeEvent.getProductCategory());
+//			System.out.println("Precio anterior: $" + priceChangeEvent.getOldPrice());
+//			System.out.println("Precio nuevo: $" + priceChangeEvent.getNewPrice());
+//			System.out.println("Cambio: $" + priceChangeEvent.getChangeAmount());
+//			System.out.println("Porcentaje de cambio: " + String.format("%.2f%%", priceChangeEvent.getChangePercentage()));
+//			System.out.println("Tipo de cambio: " + priceChangeEvent.getChangeType());
+//			System.out.println("Fecha/Hora: " + priceChangeEvent.getChangeTimestamp());
+//			System.out.println("Razón: " + priceChangeEvent.getChangeReason());
+//			System.out.println("=====================================");
+//			
+//			// Here you could implement business logic like:
+//			// - Notify inventory management system
+//			// - Update pricing analytics
+//			// - Send notifications to customers
+//			// - Log for audit purposes
+//			// - Trigger price optimization algorithms
+//			
+//		} catch (Exception e) {
+//			System.err.println("Error procesando cambio de precio: " + e.getMessage());
+//			e.printStackTrace();
+//		}
+//	}
 
 	@RabbitListener(id = "listener-price-change-dlq", queues = RabbitMQConfig.PRICE_CHANGE_DLQ)
 	public void recibirCambioPrecioDLQ(PriceChangeEventDTO priceChangeEvent) {
