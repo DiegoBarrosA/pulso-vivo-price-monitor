@@ -40,6 +40,13 @@ public class RabbitMQConfig {
 	public static final String PRICE_CHANGE_DLX = "price-change-dlx";
 	public static final String PRICE_CHANGE_DLQ = "price-change-dlq";
 
+	// Stock change monitoring constants
+	public static final String STOCK_CHANGE_QUEUE = "stock-changes";
+	public static final String STOCK_CHANGE_EXCHANGE = "stock-change-exchange";
+	public static final String STOCK_CHANGE_ROUTING_KEY = "stock.change";
+	public static final String STOCK_CHANGE_DLX = "stock-change-dlx";
+	public static final String STOCK_CHANGE_DLQ = "stock-change-dlq";
+
 	@Bean
 	Jackson2JsonMessageConverter messageConverter() {
 
@@ -119,6 +126,44 @@ public class RabbitMQConfig {
 	Binding priceChangeDlxBinding() {
 
 		return BindingBuilder.bind(priceChangeDlq()).to(priceChangeDlxExchange()).with("dlq");
+	}
+
+	// Stock change queue configuration
+	@Bean
+	Queue stockChangeQueue() {
+
+		return new Queue(STOCK_CHANGE_QUEUE, true, false, false,
+				Map.of("x-dead-letter-exchange", STOCK_CHANGE_DLX, "x-dead-letter-routing-key", "dlq"));
+	}
+
+	@Bean
+	DirectExchange stockChangeExchange() {
+
+		return new DirectExchange(STOCK_CHANGE_EXCHANGE);
+	}
+
+	@Bean
+	Binding stockChangeBinding() {
+
+		return BindingBuilder.bind(stockChangeQueue()).to(stockChangeExchange()).with(STOCK_CHANGE_ROUTING_KEY);
+	}
+
+	@Bean
+	DirectExchange stockChangeDlxExchange() {
+
+		return new DirectExchange(STOCK_CHANGE_DLX);
+	}
+
+	@Bean
+	Queue stockChangeDlq() {
+
+		return new Queue(STOCK_CHANGE_DLQ);
+	}
+
+	@Bean
+	Binding stockChangeDlxBinding() {
+
+		return BindingBuilder.bind(stockChangeDlq()).to(stockChangeDlxExchange()).with("dlq");
 	}
 
 	@Bean

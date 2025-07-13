@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import com.rabbitmq.client.Channel;
 
 import cl.duoc.ejemplo.dsy2206.semana5.rabbitmqavanzado.config.RabbitMQConfig;
-import cl.duoc.ejemplo.dsy2206.semana5.rabbitmqavanzado.dto.PriceChangeEventDTO;
 import cl.duoc.ejemplo.dsy2206.semana5.rabbitmqavanzado.service.MensajeService;
 
 @Service
@@ -75,7 +74,7 @@ public class MensajeServiceImpl implements MensajeService {
 //			System.out.println("Precio nuevo: $" + priceChangeEvent.getNewPrice());
 //			System.out.println("Cambio: $" + priceChangeEvent.getChangeAmount());
 //			System.out.println("Porcentaje de cambio: " + String.format("%.2f%%", priceChangeEvent.getChangePercentage()));
-//			System.out.println("Tipo de cambio: " + priceChangeEvent.getChangeType());
+//			System.out.println("Tipo de cambio: " + priceChangeEvent.getChangeTimestamp());
 //			System.out.println("Fecha/Hora: " + priceChangeEvent.getChangeTimestamp());
 //			System.out.println("Razón: " + priceChangeEvent.getChangeReason());
 //			System.out.println("=====================================");
@@ -93,18 +92,4 @@ public class MensajeServiceImpl implements MensajeService {
 //		}
 //	}
 
-	@RabbitListener(id = "listener-price-change-dlq", queues = RabbitMQConfig.PRICE_CHANGE_DLQ)
-	public void recibirCambioPrecioDLQ(PriceChangeEventDTO priceChangeEvent) {
-		System.out.println("=== CAMBIO DE PRECIO EN DLQ ===");
-		System.out.println("Producto ID: " + priceChangeEvent.getProductId());
-		System.out.println("Error: Mensaje enviado a Dead Letter Queue");
-		System.out.println("Posibles razones: procesamiento fallido, timeout, etc.");
-		System.out.println("===============================");
-		
-		// Here you could implement error handling logic like:
-		// - Alert administrators
-		// - Store in error log
-		// - Retry mechanism
-		// - Manual intervention workflow
-	}
 }
